@@ -1,0 +1,9 @@
+
+parameters:
+	level: 0
+	autoload_directories:
+		- %rootDir%/../../../application
+		- %rootDir%/../../../tests
+		- %rootDir%/../../../extend
+	ignoreErrors:
+		- '#Static call to instance method think[a-zA-Z0-9\\_:]+\(\)#'

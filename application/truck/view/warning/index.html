@@ -1,0 +1,121 @@
+{extend name="common/base" /}
+
+{block name="main"}
+
+<form class="layui-form demoTable" action="">
+  <div class="layui-form-item">
+    <label class="layui-form-label">搜索车牌</label>
+    <div class="layui-inline">
+      <input class="layui-input" name="vehicleNo" id="demoReload" autocomplete="off">
+    </div>
+    <div class="layui-inline">
+    <button class="layui-btn" data-type="reload" type="button">搜索</button>
+  </div>
+  <div class="layui-inline">
+    <label class="layui-form-label">选择大队</label>
+    <div class="layui-input-inline">
+      <select name="dadui" id='dadui' data-type="reload_dadui">
+        <option value=""></option>
+        <option value="高速衡阳支队新塘大队">新塘</option>
+        <option value="高速衡阳支队耒阳大队">耒阳</option>
+        <option value="高速衡阳支队蒸湘大队">蒸湘</option>
+        <option value="高速衡阳支队衡南大队">衡南</option>
+        <option value="高速衡阳支队衡阳西大队">衡阳西</option>
+        <option value="高速衡阳支队西渡大队">西渡</option>
+        <option value="高速衡阳支队石鼓大队">石鼓</option>
+        <option value="高速衡阳支队南岳大队">南岳大队</option>
+        <option value="高速衡阳支队祁东大队">祁东大队</option>
+      </select>
+    </div>
+    <div class="layui-inline">
+        <button class="layui-btn" data-type="reload_dadui" type="button" id='dadui'>搜索</button>
+      </div>
+  </div>
+  </div>
+</form>
+
+
+<table class="layui-hide" id="demo" lay-filter="test"></table>
+
+<script>
+
+  layui.use(['laydate', 'laypage', 'layer', 'table', 'form'], function () {
+    var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+    var table = layui.table;
+    form.render();
+
+    //执行一个 table 实例
+    var tableIns = table.render({
+      elem: '#demo'
+      , height: 800
+      , url: '/suanlajizhen2/public/index.php/truck/api/trucks' //数据接口
+      , title: '预警表'
+      , page: true //开启分页
+      , toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+      , defaultToolbar: ['filter', 'print', 'exports']
+      , initSort: { field: 'warningTime', type: 'desc' }
+      , cols: [[ //表头
+
+        , { field: 'warningTime', title: '预警时间', width: 160, sort: true }
+        , { field: 'vehicleNo', title: '车牌', width: 120 }
+        , { field: 'companyname', title: '车主', width: 120 }
+        , { field: 'alarmCode', title: '预警类型', width: 100 }
+        , { field: 'durationTime', title: '持续时间', width: 120 }
+        , { field: 'expressway', title: '高速', width: 200 }
+        , { field: 'pileNo', title: '公里数', width: 80 }
+        , { field: 'dadui', title: '大队', width: 200 }
+        , { field: 'alarmAddr', title: '位置', width: 200 }
+        , { field: 'gpsSpeed', title: 'GPS速度', width: 80 }
+        , { field: 'limitSpeed', title: '限速', width: 80 }
+      ]]
+    });
+
+    var $ = layui.$, active = {
+      reload: function () {
+        var demoReload = $('#demoReload');
+
+        //执行重载
+        tableIns.reload({
+          page: {
+            curr: 1 //重新从第 1 页开始
+          }
+          , where: { //设定异步数据接口的额外参数，任意设
+
+            key: {
+              vehicleNo: demoReload.val()
+            }
+          }
+        });
+      },
+      reload_dadui: function () {
+        var demoReload = $('#dadui');
+
+        //执行重载
+        tableIns.reload({
+          page: {
+            curr: 1 //重新从第 1 页开始
+          }
+          , where: { //设定异步数据接口的额外参数，任意设
+
+            key: {
+              dadui: demoReload.val()
+              //…
+            }
+          }
+        });
+      }
+    }
+
+    $('.demoTable .layui-btn').on('click', function () {
+      var type = $(this).data('type');
+      active[type] ? active[type].call(this) : '';
+    });
+
+    $('#dadui').on('click', function () {
+      var type = $(this).data('type');
+      active[type] ? active[type].call(this) : '';
+    });
+
+  });
+</script>
+{/block}
