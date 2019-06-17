@@ -160,7 +160,7 @@ class Warning extends Controller
         $data = $this->getDataTired($start_time_utc, $end_time_utc, $page);
         $dataLen = strlen($data);
         $header = $this->getHeader($cookie, $dataLen);
-        $url = $this->getUrlAlarmCar();
+        $url = $this->vehicleAlarmUrl();
         
         $worker = new NetWorker();
         $resultStr = $worker->sentPost($header, $data, $url);
@@ -186,7 +186,7 @@ class Warning extends Controller
         $data = $this->getDataSpeedChina($start_time_utc, $end_time_utc, $page, $speed);
         $dataLen = strlen($data);
         $header = $this->getHeader($cookie, $dataLen);
-        $url = $this->getUrlAlarmCar();
+        $url = $this->vehicleAlarmUrl();
         
         
         $worker = new NetWorker();
@@ -214,7 +214,7 @@ class Warning extends Controller
         $dataLen = strlen($data);
         $cookie = $this->getCookiesCache();
         $header = $this->getHeader($cookie, $dataLen);
-        $url = $this->getUrlfindAddrByLatitude();
+        $url = $this->findAddrByLatitudeUrl();
         
         $worker = new NetWorker();
         $result = $worker->sentPost($header, $data, $url);
@@ -280,7 +280,10 @@ class Warning extends Controller
         return $cookie;
     }
 
-    public function getUrlAlarmCar()
+    /** 预警车辆的查询接口
+     * @return string
+     */
+    public function vehicleAlarmUrl()
     {
         return "https://jg.gghypt.net/hyjg/statistics/statisticsAction!findVehicleAlarmByPage.action";
     }
@@ -289,24 +292,11 @@ class Warning extends Controller
      * 如： ‘湖南省衡阳市衡南县黄土坳，向西南方向，230米’
      * @return string
      */
-    public function getUrlfindAddrByLatitude()
+    public function findAddrByLatitudeUrl()
     {
         return "https://jg.gghypt.net/hyjg/monitor/monitorAction!findAddressList.action";
     }
 
-    public function getStartTime()
-    {
-        //return 1555689600000;
-        return 1557158400000;
-    }
-
-    /**
-     * 分钟为单位，默认1分钟
-     */
-    public function getStep($step = 1)
-    {
-        return $step * 1000 * 60; // 毫秒
-    }
 
     /**
      *
@@ -333,6 +323,7 @@ class Warning extends Controller
     }
 
     /**
+     * 获取湖南省的超速车辆
      * 默认获取101km/h
      *
      * @param integer $startTime
@@ -345,7 +336,16 @@ class Warning extends Controller
         $rows = 40;
         return 'undefined=undefined&requestParam.equal.alarmCode=1&requestParam.equal.gpsSpeed=' . $speed . '&undefined=undefined&requestParam.equal.startTimeUtc=' . $start_time_utc . '&requestParam.equal.endTimeUtc=' . $end_time_utc . '&requestParam.equal.areaCode=430000&undefined=undefined&undefined=undefined&requestParam.page=' . $page . '&requestParam.rows='.$rows.'&sortname=alarmStartUtc&sortorder=des';
     }
-    
+
+    /**
+     * 获取全国的超速车辆
+     * 默认获取101km/h
+     *
+     * @param integer $startTime
+     * @param integer $endTime
+     * @param number $speed
+     * @return string
+     */
     public function getDataSpeedChina($start_time_utc, $end_time_utc, $page = 1, $speed = 101)
     {
         $rows = 40;
@@ -357,17 +357,12 @@ class Warning extends Controller
         $rows = 40;
         return 'undefined=undefined&requestParam.equal.alarmCode=2&undefined=undefined&undefined=undefined&requestParam.equal.startTimeUtc=' . $start_time_utc . '&requestParam.equal.endTimeUtc=' . $end_time_utc . '&requestParam.equal.areaCode=430000&undefined=undefined&undefined=undefined&requestParam.page='.$page.'&requestParam.rows='.$rows.'&sortname=alarmStartUtc&sortorder=des';
     }
-    
-    public function getLastWarning(){
-        $model = new WarningModel();
-        $utc =  $model->getLastWarning();
-        return $utc;
-    }
-    
-    public function getEndTime($startTime, $range){
-        
-    }
-    
+
+
+
+    /** 从cache中获取 cookie
+     * @return mixed|string
+     */
     public function getCookiesCache(){
         $cookie = cache('truckCookie');
         if ($cookie == null){
