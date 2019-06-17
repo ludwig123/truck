@@ -7,17 +7,12 @@ namespace Composer\Autoload;
 class ComposerStaticInitf617c81255c91c28ca9fc04e51ee6687
 {
     public static $files = array (
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '59af96974553a1fc6407327354b6f47e' => __DIR__ . '/..' . '/nette/di/src/compatibility.php',
-        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
-        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
-        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '9b552a3cc426e3287cc811caefa3cf53' => __DIR__ . '/..' . '/topthink/think-helper/src/helper.php',
-        'f0e7e63bbb278a92db02393536748c5f' => __DIR__ . '/..' . '/overtrue/wechat/src/Kernel/Support/Helpers.php',
-        '6747f579ad6817f318cc3a7e7a0abb93' => __DIR__ . '/..' . '/overtrue/wechat/src/Kernel/Helpers.php',
         '72c97b53391125cae04082a81029f42d' => __DIR__ . '/..' . '/topthink/think-testing/src/config.php',
     );
 
@@ -42,51 +37,26 @@ class ComposerStaticInitf617c81255c91c28ca9fc04e51ee6687
         ),
         'S' => 
         array (
+            'Symfony\\Polyfill\\Php73\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
-            'Symfony\\Contracts\\' => 18,
-            'Symfony\\Component\\VarExporter\\' => 30,
-            'Symfony\\Component\\HttpFoundation\\' => 33,
+            'Symfony\\Contracts\\Service\\' => 26,
             'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Component\\DomCrawler\\' => 29,
             'Symfony\\Component\\Console\\' => 26,
-            'Symfony\\Component\\Cache\\' => 24,
-            'Symfony\\Bridge\\PsrHttpMessage\\' => 30,
         ),
         'P' => 
         array (
-            'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
-            'Psr\\Http\\Message\\' => 17,
-            'Psr\\Container\\' => 14,
-            'Psr\\Cache\\' => 10,
+            'Prophecy\\' => 9,
             'PhpParser\\' => 10,
             'PackageVersions\\' => 16,
             'PHPStan\\PhpDocParser\\' => 21,
             'PHPStan\\' => 8,
         ),
-        'O' => 
-        array (
-            'Overtrue\\Socialite\\' => 19,
-        ),
-        'M' => 
-        array (
-            'Monolog\\' => 8,
-        ),
         'J' => 
         array (
             'Jean85\\' => 7,
-        ),
-        'G' => 
-        array (
-            'GuzzleHttp\\Psr7\\' => 16,
-            'GuzzleHttp\\Promise\\' => 19,
-            'GuzzleHttp\\' => 11,
-        ),
-        'E' => 
-        array (
-            'EasyWeChat\\' => 11,
-            'EasyWeChatComposer\\' => 19,
         ),
         'D' => 
         array (
@@ -126,6 +96,10 @@ class ComposerStaticInitf617c81255c91c28ca9fc04e51ee6687
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
         ),
+        'Symfony\\Polyfill\\Php73\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php73',
+        ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
@@ -134,17 +108,9 @@ class ComposerStaticInitf617c81255c91c28ca9fc04e51ee6687
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
-        'Symfony\\Contracts\\' => 
+        'Symfony\\Contracts\\Service\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/contracts',
-        ),
-        'Symfony\\Component\\VarExporter\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/var-exporter',
-        ),
-        'Symfony\\Component\\HttpFoundation\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/http-foundation',
+            0 => __DIR__ . '/..' . '/symfony/service-contracts',
         ),
         'Symfony\\Component\\Finder\\' => 
         array (
@@ -158,33 +124,13 @@ class ComposerStaticInitf617c81255c91c28ca9fc04e51ee6687
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
-        'Symfony\\Component\\Cache\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/cache',
-        ),
-        'Symfony\\Bridge\\PsrHttpMessage\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/psr-http-message-bridge',
-        ),
-        'Psr\\SimpleCache\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
-        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
-        'Psr\\Http\\Message\\' => 
+        'Prophecy\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-        ),
-        'Psr\\Container\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/container/src',
-        ),
-        'Psr\\Cache\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/cache/src',
+            0 => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy',
         ),
         'PhpParser\\' => 
         array (
@@ -203,37 +149,9 @@ class ComposerStaticInitf617c81255c91c28ca9fc04e51ee6687
             0 => __DIR__ . '/..' . '/phpstan/phpstan/src',
             1 => __DIR__ . '/..' . '/phpstan/phpstan/build/PHPStan',
         ),
-        'Overtrue\\Socialite\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/overtrue/socialite/src',
-        ),
-        'Monolog\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
-        ),
         'Jean85\\' => 
         array (
             0 => __DIR__ . '/..' . '/jean85/pretty-package-versions/src',
-        ),
-        'GuzzleHttp\\Psr7\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
-        ),
-        'GuzzleHttp\\Promise\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
-        ),
-        'GuzzleHttp\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
-        ),
-        'EasyWeChat\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/overtrue/wechat/src',
-        ),
-        'EasyWeChatComposer\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/easywechat-composer/easywechat-composer/src',
         ),
         'Doctrine\\Instantiator\\' => 
         array (
@@ -249,24 +167,11 @@ class ComposerStaticInitf617c81255c91c28ca9fc04e51ee6687
         ),
     );
 
-    public static $prefixesPsr0 = array (
-        'P' => 
-        array (
-            'Prophecy\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
-            ),
-            'Pimple' => 
-            array (
-                0 => __DIR__ . '/..' . '/pimple/pimple/src',
-            ),
-        ),
-    );
-
     public static $classMap = array (
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
+        'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
         'Nette\\ArgumentOutOfRangeException' => __DIR__ . '/..' . '/nette/utils/src/Utils/exceptions.php',
         'Nette\\Bridges\\DITracy\\ContainerPanel' => __DIR__ . '/..' . '/nette/di/src/Bridges/DITracy/ContainerPanel.php',
         'Nette\\Configurator' => __DIR__ . '/..' . '/nette/bootstrap/src/Bootstrap/Configurator.php',
@@ -551,7 +456,7 @@ class ComposerStaticInitf617c81255c91c28ca9fc04e51ee6687
         'PHPUnit\\Util\\TestDox\\XmlResultPrinter' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/TestDox/XmlResultPrinter.php',
         'PHPUnit\\Util\\TextTestListRenderer' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/TextTestListRenderer.php',
         'PHPUnit\\Util\\Type' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/Type.php',
-        'PHPUnit\\Util\\Xml' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/Xml.php',
+        'PHPUnit\\Util\\Xml' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/XML.php',
         'PHPUnit\\Util\\XmlTestListRenderer' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/XmlTestListRenderer.php',
         'PHPUnit_Framework_MockObject_MockObject' => __DIR__ . '/..' . '/phpunit/phpunit-mock-objects/src/MockObject.php',
         'PHP_Timer' => __DIR__ . '/..' . '/phpunit/php-timer/src/Timer.php',
@@ -928,7 +833,6 @@ class ComposerStaticInitf617c81255c91c28ca9fc04e51ee6687
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitf617c81255c91c28ca9fc04e51ee6687::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitf617c81255c91c28ca9fc04e51ee6687::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitf617c81255c91c28ca9fc04e51ee6687::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitf617c81255c91c28ca9fc04e51ee6687::$classMap;
 
         }, null, ClassLoader::class);
