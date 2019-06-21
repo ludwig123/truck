@@ -1,5 +1,5 @@
 <?php
-use PHPUnit\Framework\TestCase;
+use think\testing;
 use app\truck\model\WarningModel;
 
 require_once 'application/truck/model/WarningModel.php';
@@ -7,7 +7,7 @@ require_once 'application/truck/model/WarningModel.php';
 /**
  * WarningModel test case.
  */
-class WarningModelTest extends TestCase
+class WarningModelTest extends \think\testing\TestCase
 {
 
     /**
@@ -19,7 +19,7 @@ class WarningModelTest extends TestCase
     /**
      * Prepares the environment before running a test.
      */
-    protected function setUp()
+    protected function setUp():void
     {
         parent::setUp();
         
@@ -31,7 +31,7 @@ class WarningModelTest extends TestCase
     /**
      * Cleans up the environment after running a test.
      */
-    protected function tearDown()
+    protected function tearDown():void
     {
         // TODO Auto-generated WarningModelTest::tearDown()
         $this->warningModel = null;

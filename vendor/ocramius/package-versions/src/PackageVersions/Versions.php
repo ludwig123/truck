@@ -68,7 +68,7 @@ final class Versions
   'symfony/finder' => 'v4.3.1@b3d4f4c0e4eadfdd8b296af9ca637cfbf51d8176',
   'symfony/polyfill-php73' => 'v1.11.0@d1fb4abcc0c47be136208ad9d68bf59f1ee17abd',
   'symfony/service-contracts' => 'v1.1.2@191afdcb5804db960d26d8566b7e9a2843cab3a0',
-  'topthink/think' => 'dev-master@bd779cf99405979a580a56860c0ef398eb3f2a20',
+  'topthink/think' => 'dev-master@874cb797738075621d377d75a9f409c62f4cee03',
 );
 
     private function __construct()

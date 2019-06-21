@@ -6,7 +6,7 @@ require_once 'application/truck/controller/Warning.php';
 /**
  * Warning test case.
  */
-class WarningTest extends TestCase
+class WarningTest extends \think\testing\TestCase
 {
 
     /**
@@ -17,25 +17,17 @@ class WarningTest extends TestCase
     /**
      * Prepares the environment before running a test.
      */
-    protected function setUp()
+    protected function setUp():void
     {
         parent::setUp();
         
         // TODO Auto-generated WarningTest::setUp()
         
         $this->warning = new Warning();
+
     }
 
-    /**
-     * Cleans up the environment after running a test.
-     */
-    protected function tearDown()
-    {
-        // TODO Auto-generated WarningTest::tearDown()
-        $this->warning = null;
-        
-        parent::tearDown();
-    }
+
 
     /**
      * Constructs the test case.
