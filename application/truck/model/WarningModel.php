@@ -1,7 +1,11 @@
 <?php
 namespace app\truck\model;
 
+use Exception;
 use think\Db;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\ModelNotFoundException;
+use think\exception\DbException;
 use think\Model;
 use app\truck\common\Tools;
 
@@ -33,7 +37,7 @@ class WarningModel extends Model
             if ($result == 1)
                $sum++;
             }
-            catch (\Exception $e){
+            catch (Exception $e){
 //                var_dump($e);
             }
         }
@@ -100,10 +104,14 @@ class WarningModel extends Model
     
     
     //
+
     /**
      * 查询车牌的记录
-     *
      * @param string $carNum
+     * @return array
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
+     * @throws DbException
      */
     public function findByCarNum($carNum)
     {
@@ -113,11 +121,16 @@ class WarningModel extends Model
     public function getLastWarning(){
        return  Db::name('warning')->max('utc');
     }
-    
+
+    /** 数据库里最近的一次超速时间utc(micro second)
+     * @return string
+     */
     public function getLastSpeedWarning(){
         return  Db::name('warning')->where('alarmCode', '<>', '2')->max('utc');
     }
-    
+    /** 数据库里最近的一次疲劳时间utc(micro second)
+     * @return string
+     */
     public function getLastTiredWarning(){
         return  Db::name('warning')->where('alarmCode', '=', '2')->max('utc');
     }
@@ -288,7 +301,7 @@ class WarningModel extends Model
     
     public function cars(){
          $tools = new Tools();
-         $NowUtc = $tools->currentUTC();
+         $NowUtc = $tools->currentUtcMicro();
          //一天 86400000
          $beginUtc = $NowUtc - 86400000 * 1;
          //$result =  Db::query("SELECT DISTINCT vehicleNo, companyname, alarmCode, limitSpeed, gpsSpeed, durationTime, warningTime, alarmAddr, expressway, pileNo, dadui FROM wp_warning where utc > ".$beginUtc);

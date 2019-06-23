@@ -1,0 +1,25 @@
+{extend name="common/base" /}
+
+{block name="main"}
+<form class="layui-form demoTable" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">输入cookie</label>
+        <div class="layui-inline">
+            <input class="layui-input" name="cookie" id="demoReload" autocomplete="off">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.use(['laydate', 'laypage', 'layer', 'table', 'form'], function () {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        form.render();
+    });
+</script>
+{/block}

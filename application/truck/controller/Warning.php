@@ -5,7 +5,8 @@ use app\truck\model\WarningModel;
 use app\truck\model\WarningUpdateLog;
 use app\truck\common\NetWorker;
 use app\truck\common\Tools;
-use think\view\driver\Think;
+use think\facade\Request;
+
 use think\Controller;
 
 /** 1、post_data 中的des和asc 排序是没有用的，永远都是时间utc值大的在列表的前面
@@ -28,15 +29,21 @@ class Warning extends Controller
         return $this->fetch();
         
     }
+
+    public function cookie(){
+        $cookie= Request::get('cookie');
+        if (!empty($cookie)){
+            $this->setCookie($cookie);
+        }
+        return $this->fetch();
+    }
     
     
     
     public function speedCar(){
-        $tools = new Tools();
-        
-        $model = new WarningModel();
-        $start_time_utc = $model->getLastSpeedWarning();
-        $end_time_utc = $tools->currentUtcMicro();
+
+        $start_time_utc = $this->getLastSpeedWarning();
+        $end_time_utc = $this->getCurrentUtcMicro();
         
         //毫秒为单位  1000毫秒 60秒/分 ， 三分钟
         $min = 1000 * 60;
@@ -53,11 +60,8 @@ class Warning extends Controller
     }
     
     public function tiredCar(){
-        $tools = new Tools();
-        
-        $model = new WarningModel();
-        $start_time_utc = $model->getLastTiredWarning();
-        $end_time_utc = $tools->currentUtcMicro();
+        $start_time_utc = $this->getLastTiredWarning();
+        $end_time_utc = $this->getCurrentUtcMicro();
         
         //毫秒为单位  1000毫秒 60秒/分 ， 三分钟
         $min = 1000 * 60;
@@ -162,8 +166,8 @@ class Warning extends Controller
         $header = $this->getHeader($cookie, $dataLen);
         $url = $this->vehicleAlarmUrl();
         
-        $worker = new NetWorker();
-        $resultStr = $worker->sentPost($header, $data, $url);
+
+        $resultStr = $this->getPostResult($header, $data, $url);
         
         $savedCount = $this->saveRows($resultStr);
         
@@ -188,9 +192,8 @@ class Warning extends Controller
         $header = $this->getHeader($cookie, $dataLen);
         $url = $this->vehicleAlarmUrl();
         
-        
-        $worker = new NetWorker();
-        $resultStr = $worker->sentPost($header, $data, $url);
+
+        $resultStr = $this->getPostResult($header, $data, $url);
         
         $savedCount = $this->saveRows($resultStr);
         
@@ -215,9 +218,8 @@ class Warning extends Controller
         $cookie = $this->getCookiesCache();
         $header = $this->getHeader($cookie, $dataLen);
         $url = $this->findAddrByLatitudeUrl();
-        
-        $worker = new NetWorker();
-        $result = $worker->sentPost($header, $data, $url);
+
+        $result = $this->getPostResult($header, $data, $url);
         return $result;
     }
         
@@ -237,27 +239,17 @@ class Warning extends Controller
             exit();
             
         }
-        
-        $result = json_decode($resultStr, true);
-        
-        $total = $result['Total'];
-        $rows = $result['Rows'];
-        
+
+        $rows = $this->getDataFromRawResponse($resultStr);
+
         // 服务器没有返回数据
         if (empty($rows))
             return '当前时间段没有数据';
-        
-        //通过经纬度查询具体的地址
-        $addrListStr = $this->getAddrList($rows);
-        $addrList = json_decode($addrListStr, true);
-        
-        
-        $rows = $this->addAddrToAlarmList($addrList, $rows);
-        
-        $rows = $this->reduceRows($rows, '衡阳市');
-        
-        $model = new WarningModel();
-        $savedCount = $model->add($rows);
+
+        $filter = '衡阳市';
+        $rows = $this->addAddress($rows, $filter);
+
+        $savedCount = $this->saveRowsReal($rows);
         sleep(0.1);
         return $savedCount;
     }
@@ -383,6 +375,94 @@ class Warning extends Controller
         }
         return $result;
     }
-    
-    
+
+    /**
+     * @return string
+     */
+    public function getLastSpeedWarning()
+    {
+        $model = new WarningModel();
+        $lastSpeedWarning = $model->getLastSpeedWarning();
+        return $lastSpeedWarning;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurrentUtcMicro()
+    {
+        $tools = new Tools();
+        return $tools->currentUtcMicro();
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastTiredWarning()
+    {
+        $model = new WarningModel();
+        $start_time_utc = $model->getLastTiredWarning();
+        return $start_time_utc;
+    }
+
+    /**
+     * @param $rows
+     * @param $filter
+     * @return array
+     */
+    public function addAddress($rows, $filter)
+    {
+//通过经纬度查询具体的地址
+        $addrListStr = $this->getAddrList($rows);
+        $addrList = json_decode($addrListStr, true);
+
+
+        $rows = $this->addAddrToAlarmList($addrList, $rows);
+
+        $rows = $this->reduceRows($rows, $filter);
+        return $rows;
+    }
+
+    /**
+     * @param array $rows
+     * @return int
+     */
+    public function saveRowsReal(array $rows)
+    {
+        $model = new WarningModel();
+        $savedCount = $model->add($rows);
+        return $savedCount;
+    }
+
+    /**
+     * @param $resultStr
+     * @return mixed
+     */
+    private function getDataFromRawResponse($resultStr)
+    {
+        $result = json_decode($resultStr, true);
+
+        $rows = $result['Rows'];
+        return $rows;
+    }
+
+    /**
+     * @param array $header
+     * @param $data
+     * @param $url
+     * @return bool|string
+     */
+    public function getPostResult(array $header, $data, $url)
+    {
+        $worker = new NetWorker();
+        $result = $worker->sentPost($header, $data, $url);
+        return $result;
+    }
+
+
+    private function setCookie($cookie){
+        cache('truckCookie', $cookie);
+    }
+
+
 }
