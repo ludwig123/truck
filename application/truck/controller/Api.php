@@ -2,7 +2,7 @@
 namespace app\truck\controller;
 
 use app\truck\model\WarningModel;
-use app\truck\common\Tools;
+use app\truck\common\TimeTranslator;
 use think\facade\Request;
 
 class Api{
@@ -74,7 +74,7 @@ class Api{
      */
     private function findSpeedWarningsInPastDays($dadui)
     {
-        $tool = new Tools();
+        $tool = new TimeTranslator();
         $endTime = $tool->currentUtcMicro();
 //        $startTime = '1557582110000';
         $startTime = $endTime - $tool->dayToMicroseconds(3);

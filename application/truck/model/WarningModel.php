@@ -7,7 +7,7 @@ use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
 use think\exception\DbException;
 use think\Model;
-use app\truck\common\Tools;
+use app\truck\common\TimeTranslator;
 
 /**
  *
@@ -300,7 +300,7 @@ class WarningModel extends Model
     } 
     
     public function cars(){
-         $tools = new Tools();
+         $tools = new TimeTranslator();
          $NowUtc = $tools->currentUtcMicro();
          //一天 86400000
          $beginUtc = $NowUtc - 86400000 * 1;

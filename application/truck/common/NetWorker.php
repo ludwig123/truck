@@ -90,4 +90,56 @@ class NetWorker{
         curl_multi_close($mh);
         return $urlData;
     }
+
+
+    /**
+     * @param array $header
+     * @param $data
+     * @param $url
+     * @return bool|string
+     */
+    public static function getPostResult(array $header, $data, $url)
+    {
+        $worker = new NetWorker();
+        $result = $worker->sentPost($header, $data, $url);
+        return $result;
+    }
+
+    /** 从cache中获取 cookie
+     * @return mixed|string
+     */
+    public static function getCookiesCache(){
+        $cookie = cache('truckCookie');
+        if ($cookie == null){
+            return 'empty_cookie';
+        }
+
+        else
+            return $cookie;
+    }
+
+    public  static function getHeader($cookie, $data)
+    {
+        $dataLen = strlen($data);
+        return array(
+            'Accept:application/json, text/javascript, */*; q=0.01',
+            'Accept-Encoding:gzip, deflate, br',
+            'Accept-Language:zh-CN,zh;q=0.9',
+            'Connection:keep-alive',
+            'Content-Length:' . $dataLen,
+            'Content-Type:application/x-www-form-urlencoded',
+            'Cookie:JSESSIONID=' . $cookie,
+            'Host:jg.gghypt.net',
+            'Origin:https://jg.gghypt.net',
+            'Referer:https://jg.gghypt.net/hyjg/statisticsAction!statisticsVehicleAlarm.action',
+            'User-Agent:Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
+            'X-Requested-With:XMLHttpRequest'
+        );
+    }
+
+    public static function setCookie($cookie){
+        cache('truckCookie', $cookie);
+    }
+
+
 }
