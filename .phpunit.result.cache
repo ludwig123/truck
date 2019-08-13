@@ -1,1 +1,1 @@
-C:37:"PHPUnit\Runner\DefaultTestResultCache":126:{a:2:{s:7:"defects";a:1:{s:27:"WarningTest::testCurrentUTC";i:4;}s:5:"times";a:1:{s:27:"WarningTest::testCurrentUTC";d:0.011;}}}
+C:37:"PHPUnit\Runner\DefaultTestResultCache":126:{a:2:{s:7:"defects";a:1:{s:27:"WarningTest::testCurrentUTC";i:4;}s:5:"times";a:1:{s:27:"WarningTest::testCurrentUTC";d:0.016;}}}

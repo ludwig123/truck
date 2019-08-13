@@ -34,9 +34,9 @@ class LocationTranslator
 
     public static function getAddrList($rows){
         $data = self::getDataAddr($rows);
-        $dataLen = strlen($data);
+
         $cookie = self::getCookiesCache();
-        $header = self::getHeader($cookie, $dataLen);
+        $header = self::getHeader($cookie, $data);
         $url = URLRepository::findAddrByLatitudeUrl();
 
         $result = NetWorker::getPostResult($header, $data, $url);

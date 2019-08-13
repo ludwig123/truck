@@ -9,6 +9,11 @@ use app\truck\model\WarningUpdateLog;
 
 class TiredCar
 {
+    private $isChina;
+    function __construct($isChina)
+    {
+        $this->isChina = $isChina;
+    }
 
     public function tiredCar(){
         $start_time_utc = $this->getLastTiredWarning();
@@ -50,11 +55,11 @@ class TiredCar
             ob_flush();
             flush();
         }while (is_numeric($savedCountTired) && $savedCountTired > 0);
-        echo '本次抓取疲劳数据共：'.($log->tired_records).'条\n。';
+        echo '从'.$log->start.'--'.$log->end.'抓取疲劳数据共:'.($log->tired_records).'条,';
 
         $log->cost_time = microtime(true) - $log->start_time;
         $log->start_time = $tools->utcToDateTime(microtime(true));
-        echo '本次疲劳抓取耗时'.($log->cost_time).'秒。';
+        echo '耗时'.round($log->cost_time, 2).'秒。<br>';
         $log->add();
     }
 
@@ -91,6 +96,21 @@ class TiredCar
     }
 
     public function getDataTired($start_time_utc, $end_time_utc, $page = 1)
+    {
+        if ($this->isChina){
+            return $this->getDataTiredChina($start_time_utc, $end_time_utc, $page = 1);
+        }
+        else
+            return $this->getDataTiredHunan($start_time_utc, $end_time_utc, $page = 1);
+          }
+
+    public function getDataTiredChina($start_time_utc, $end_time_utc, $page = 1)
+    {
+        $rows = 40;
+        return 'undefined=undefined&requestParam.equal.alarmCode=2&undefined=undefined&undefined=undefined&requestParam.equal.startTimeUtc=' . $start_time_utc . '&requestParam.equal.endTimeUtc=' . $end_time_utc . '&undefined=undefined&undefined=undefined&undefined=undefined&requestParam.page='.$page.'&requestParam.rows='.$rows.'&sortname=alarmStartUtc&sortorder=des';
+    }
+
+    public function getDataTiredHunan($start_time_utc, $end_time_utc, $page = 1)
     {
         $rows = 40;
         return 'undefined=undefined&requestParam.equal.alarmCode=2&undefined=undefined&undefined=undefined&requestParam.equal.startTimeUtc=' . $start_time_utc . '&requestParam.equal.endTimeUtc=' . $end_time_utc . '&requestParam.equal.areaCode=430000&undefined=undefined&undefined=undefined&requestParam.page='.$page.'&requestParam.rows='.$rows.'&sortname=alarmStartUtc&sortorder=des';

@@ -7,8 +7,24 @@ namespace app\truck\common;
 use app\truck\model\WarningModel;
 use app\truck\model\WarningUpdateLog;
 
+/**
+ * Class SpeedCar
+ * @package app\truck\common
+ * true 为全国数据
+ */
 class SpeedCar
 {
+    private $isChina;
+
+    /**
+     * true means china, false means hunan
+     * @param $isChina
+     */
+    function __construct($isChina)
+    {
+        $this->isChina = $isChina;
+    }
+
     public function speedCar(){
 
         $start_time_utc = $this->getLastSpeedWarning();
@@ -50,11 +66,11 @@ class SpeedCar
             ob_flush();
             flush();
         }while (is_numeric($savedCount) && $savedCount > 0);
-        echo '本次抓取超速数据共：'.($log->speed_records).'条\n。';
+        echo '从'.$log->start.'--'.$log->end.'抓取超速数据共:'.($log->speed_records).'条,';
 
         $log->cost_time = microtime(true) - $log->start_time;
         $log->start_time = TimeTranslator::utcToDateTime(microtime(true));
-        echo '本次测速抓取耗时'.($log->cost_time).'秒。';
+        echo '耗时'.round($log->cost_time, 2).'秒。<br>';
         $log->add();
     }
 
@@ -77,7 +93,7 @@ class SpeedCar
      * 获取湖南省的超速车辆
      * 默认获取101km/h
      */
-    public function getDataSpeed($start_time_utc, $end_time_utc, $page = 1, $speed = 101)
+    public function getDataSpeedHunan($start_time_utc, $end_time_utc, $page = 1, $speed = 101)
     {
         $rows = 40;
         return 'undefined=undefined&requestParam.equal.alarmCode=1&requestParam.equal.gpsSpeed=' . $speed . '&undefined=undefined&requestParam.equal.startTimeUtc=' . $start_time_utc . '&requestParam.equal.endTimeUtc=' . $end_time_utc . '&requestParam.equal.areaCode=430000&undefined=undefined&undefined=undefined&requestParam.page=' . $page . '&requestParam.rows='.$rows.'&sortname=alarmStartUtc&sortorder=des';
@@ -98,5 +114,13 @@ class SpeedCar
     {
         $rows = 40;
         return 'undefined=undefined&requestParam.equal.alarmCode=1&requestParam.equal.gpsSpeed=' . $speed . '&undefined=undefined&requestParam.equal.startTimeUtc=' . $start_time_utc . '&requestParam.equal.endTimeUtc=' . $end_time_utc . '&undefined=undefined&undefined=undefined&undefined=undefined&requestParam.page=' . $page . '&requestParam.rows='.$rows.'&sortname=alarmStartUtc&sortorder=des';
+    }
+
+    public function getDataSpeed($start_time_utc, $end_time_utc, $page = 1, $speed = 101){
+        if ($this->isChina){
+            return $this->getDataSpeedChina($start_time_utc, $end_time_utc, $page = 1, $speed = 101);
+        }
+        else
+            return$this->getDataSpeedHunan($start_time_utc, $end_time_utc, $page = 1, $speed = 101);
     }
 }

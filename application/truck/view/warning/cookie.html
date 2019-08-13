@@ -11,10 +11,38 @@
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button type="reset" class="layui-btn layui-btn-primary">清空</button>
         </div>
     </div>
 </form>
+
+<div class="layui-row">
+    <fieldset class="layui-elem-field">
+        <legend>默认抓取全国的超速和疲劳数据</legend>
+
+    <a href="/truck/public/index.php/truck/warning/car" class="layui-btn">开始抓取数据</a>
+
+    </fieldset>
+</div>
+
+<fieldset class="layui-elem-field">
+    <legend>备用按钮 - 请勿随意使用</legend>
+    <div class="layui-field-box">
+        <div class="layui-row">
+            <a href="/truck/public/index.php/truck/warning/speedcarhunan" class="layui-btn">抓取湖南超速数据</a>
+            <a href="/truck/public/index.php/truck/warning/tiredcarhunan" class="layui-btn">抓取湖南疲劳数据</a>
+
+        </div>
+
+        <div class="layui-row">
+            <a href="/truck/public/index.php/truck/warning/speedcarchina" class="layui-btn">抓取全国超速数据</a>
+            <a href="/truck/public/index.php/truck/warning/tiredcarchina" class="layui-btn">抓取全国疲劳数据</a>
+
+        </div>
+    </div>
+</fieldset>
+
+
 
 <script>
     layui.use(['laydate', 'laypage', 'layer', 'table', 'form'], function () {

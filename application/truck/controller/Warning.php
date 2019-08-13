@@ -43,13 +43,39 @@ class Warning extends Controller
 
     public function car()
     {
-        $speedCar = new SpeedCar();
+        $speedCar = new SpeedCar(true);
         $speedCar->speedCar();
 
-        $tiredCar = new TiredCar();
+        $tiredCar = new TiredCar(true);
         $tiredCar->tiredCar();
     }
 
+
+    public function tiredCarChina()
+    {
+        $tiredCar = new TiredCar(true);
+        $tiredCar->tiredCar();
+
+    }
+
+    public function tiredCarHunan()
+    {
+        $tiredCar = new TiredCar(false);
+        $tiredCar->tiredCar();
+
+    }
+
+    public function speedCarChina()
+    {
+        $speedCar = new SpeedCar(true);
+        $speedCar->speedCar();
+
+    }
+
+    public function speedCarHunan(){
+        $speedCar = new SpeedCar(false);
+        $speedCar->speedCar();
+    }
 
 
 

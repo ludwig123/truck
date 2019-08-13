@@ -26,10 +26,10 @@ class CarRepository
         if (is_numeric($savedCount)) {
 
             if ($savedCount > 0) {
-                echo "保存" . $savedCount . "条超速数据\n,进入下一页查询\n";
+                echo "保存" . $savedCount . "条记录\n,进入下一页查询\n";
             } else {
                 // 数据重复导致没有保存
-                echo "保存" . $savedCount . "条超速数据\n";
+                echo "保存" . $savedCount . "条记录\n";
             }
             return $savedCount;
         } else {
