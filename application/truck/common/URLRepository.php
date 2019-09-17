@@ -24,4 +24,9 @@ class URLRepository
     {
         return "https://jg.gghypt.net/hyjg/monitor/monitorAction!findAddressList.action";
     }
+
+    public static function findTrackUrl()
+    {
+        return "https://jg.gghypt.net/hyjg/monitor/monitorAction!findTrack.action";
+    }
 }
