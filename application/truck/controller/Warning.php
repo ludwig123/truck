@@ -33,6 +33,7 @@ class Warning extends Controller
         
     }
 
+    //手动添加cookie
     public function cookie(){
         $cookie= Request::get('cookie');
         if (!empty($cookie)){

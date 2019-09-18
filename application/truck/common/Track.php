@@ -8,13 +8,28 @@ class Track
 {
     public function findTrack()
     {
-        $startTime = '2019-09-15 10:44:25';
-        $endTime = '2019-09-16 10:44:25';
-        $cookie = 'JSESSIONID=7A0C744F742FF8D1D0D6A052F9C18188; lineCheck=inLineCheck; __guid=149418029.2417622607162884600.1555312459470.336; JSESSIONID=666F96E503340F737C40A1C4EE0A893C; COOKIE_USERID_HD=35c9f7c6046599987bb168f39ffa7846d1055c76fd480ae9c9d6a829_1568682313059; monitor_count=6';
+        //！！！！！注意这里的时间要添加 ：00 用于毫秒级的时间转换！！
+        $startTime = '2019-09-16 15:33:25:00';
+        $endTime = '2019-09-17 15:33:25:00';
+        $cookie = 'JSESSIONID=418D91F028591288F6A5FCD4FA553D1F; lineCheck=inLineCheck; __guid=149418029.2417622607162884600.1555312459470.336; JSESSIONID=666F96E503340F737C40A1C4EE0A893C; COOKIE_USERID_HD=37d904998104a45986db0f7f482a141581ff1028f6c2b6417e34468a_1568768083325; monitor_count=12';
 
+        $post_data['requestParam.equal.id'] ='2698081623798745914';
+        $post_data['requestParam.equal.startTime'] = $startTime;
+        $post_data['requestParam.equal.endTime']=$endTime;
+        $post_data['requestParam.equal.orgCode'] ='430000';
+        $post_data['requestParam.equal.queryId'] =$this->getQueryId($post_data['requestParam.equal.id']);
+        $post_data['requestParam.equal.init'] =1;
+        $post_data['requestParam.equal.trailDataKey'] = $this->uuid_v4();
+        $post_data['requestParam.equal.searchType'] = 1;
+
+
+
+
+        //$cookie = NetWorker::getCookiesCache();
         $worker = new NetWorker();
         $header = $this->getHeader($cookie);
-        $data = 'requestParam.equal.id=6239080096271702727&requestParam.equal.startTime=2019-09-15+12%3A38%3A33%3A00&requestParam.equal.endTime=2019-09-16+12%3A38%3A33%3A00&requestParam.equal.orgCode=430000&requestParam.equal.queryId=6239080096271702727_0_1568608727202&requestParam.equal.init=1&requestParam.equal.trailDataKey=1570A981-AF68-4607-ACBF-AA1B141AFC38&requestParam.equal.searchType=1';
+        $data=$this->getPostData($post_data);
+        //$data = 'requestParam.equal.id=6239080096271702727&requestParam.equal.startTime=2019-09-15+12%3A38%3A33%3A00&requestParam.equal.endTime=2019-09-16+12%3A38%3A33%3A00&requestParam.equal.orgCode=430000&requestParam.equal.queryId=6239080096271702727_0_1568608727202&requestParam.equal.init=1&requestParam.equal.trailDataKey=1570A981-AF68-4607-ACBF-AA1B141AFC38&requestParam.equal.searchType=1';
         $url = URLRepository::findTrackUrl();
         $response = $worker->sentPost($header, $data, $url);
         $records = json_decode($response, true);
@@ -27,7 +42,7 @@ class Track
 
     }
 
-    public static function uuid_v4()
+    public function uuid_v4()
     {
         return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
 
@@ -69,28 +84,34 @@ class Track
         );
     }
 
-    public function getPostData()
+    public function getPostData($post_data)
     {
 
-        return array(
-            'requestParam.equal.endTime:"2019-09-16 10:44:25:00"',
-            'requestParam.equal.id:5101808161579700227',
-            'requestParam.equal.init:1',
-            'requestParam.equal.orgCode:430000',
-            'requestParam.equal.queryId:5101808161579700227_0_1568603599272',
-            'requestParam.equal.searchType:1',
-            'requestParam.equal.startTime:2019-09-15 10:44:25:00',
-            'requestParam.equal.trailDataKey:4959DB80-8195-4D96-9A6D-FDDCE107F656');
+        foreach ( $post_data as $key => $value )
+            $values [] =  $key."=" . urlencode ( $value );
+
+        $data_string = implode ( "&" , $values ) ;
+        return $data_string;
+//        return array(
+//            'requestParam.equal.endTime:"2019-09-16 10:44:25:00"',
+//            'requestParam.equal.id:5101808161579700227',
+//            'requestParam.equal.init:1',
+//            'requestParam.equal.orgCode:430000',
+//            'requestParam.equal.queryId:5101808161579700227_0_1568603599272',
+//            'requestParam.equal.searchType:1',
+//            'requestParam.equal.startTime:2019-09-15 10:44:25:00',
+//            'requestParam.equal.trailDataKey:4959DB80-8195-4D96-9A6D-FDDCE107F656');
     }
 
     public function isOverspeed($str){
 
         $result = explode('|',$str);
+        $speedRows = array();
 
         if (intval($result[3]) >1000){
-            $result[2] = date('Y-m-d H:i:s', $result[2]/1000);
-            $result[3] = $result[3]/10;
-            return $result;
+            $temp['time'] = date('Y-m-d H:i:s', $result[2]/1000);
+            $temp['speed'] = $result[3]/10;
+            return $temp;
         }
         return false;
     }
@@ -102,12 +123,27 @@ class Track
     public function checkSpeedRecords($rows)
     {
         $speedOver = array();
+        $count = 0;
         foreach ($rows as $k => $v) {
             $temp = $this->isOverspeed($v);
             if ($temp != false) {
+                $count++;
+                $temp['id'] = $count;
                 $speedOver[] = $temp;
             }
         }
         return $speedOver;
     }
+
+
+    //this.params.vid + "_" + Math.floor(Math.random()) * 10000 + "_" + (new Date()).getTime()
+    //5101808161579700227_0_1568603599272
+
+    //Math.floor(Math.random()) * 10000
+    //random 返回0-1之间。floor向下取整 永远都是0啊！这个兄弟括号打错地方了吧
+    public function getQueryId($vid)
+    {
+        return $vid.'_'.'0'.'_'.intval(microtime(true)*1000);
+    }
+
 }
