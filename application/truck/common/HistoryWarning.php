@@ -6,7 +6,38 @@ namespace app\truck\common;
 
 class HistoryWarning
 {
-    public function histroySpeedWarnings($carNum, $start_time_ute, $end_time_utc)
+    public function warnings($carNum)
+    {
+        $days = 7;
+        $warnings = array();
+        for ($i = 0; $i < $days; $i++)
+        {
+            $end_time_utc = TimeTranslator::todayEnd() - 86400000 * $i;
+            $start_time_utc = $end_time_utc - 86399000;
+            sleep(0.2);
+            $speedRows = $this->histroySpeedWarnings($carNum, $start_time_utc, $end_time_utc);
+            if (!empty($speedRows))
+            {
+                foreach ($speedRows as $k=>$v)
+                {
+                    $warnings[] = $v;
+                }
+            }
+            sleep(0.2);
+            $tiredRows = $this->histroyTiredWarnings($carNum, $start_time_utc, $end_time_utc);
+            if (!empty($tiredRows))
+            {
+                foreach ($tiredRows as $k=>$v)
+                {
+                    $warnings[] = $v;
+                }
+            }
+        }
+        return $warnings;
+
+    }
+
+    public function histroySpeedWarnings($carNum, $start_time_utc, $end_time_utc)
     {
 
         $speed = '103';
@@ -15,7 +46,7 @@ class HistoryWarning
         $post_data['requestParam.equal.alarmCode'] = '1';
         $post_data['requestParam.equal.gpsSpeed'] = $speed;
         $post_data['undefined'] = 'undefined';
-        $post_data['requestParam.equal.startTimeUtc'] = $start_time_ute;
+        $post_data['requestParam.equal.startTimeUtc'] = $start_time_utc;
         $post_data['requestParam.equal.endTimeUtc'] = $end_time_utc;
         $post_data['requestParam.equal.areaCode'] = '430000';
         $post_data['undefined'] = 'undefined';
@@ -49,7 +80,7 @@ class HistoryWarning
 
     }
 
-    public function histroyTiredWarnings($carNum, $start_time_ute, $end_time_utc)
+    public function histroyTiredWarnings($carNum, $start_time_utc, $end_time_utc)
     {
 
         $cookie = NetWorker::getCookiesCache();
@@ -57,7 +88,7 @@ class HistoryWarning
         $post_data['requestParam.equal.alarmCode'] = '2';
         $post_data['undefined'] = 'undefined';
         $post_data['undefined'] = 'undefined';
-        $post_data['requestParam.equal.startTimeUtc'] = $start_time_ute;
+        $post_data['requestParam.equal.startTimeUtc'] = $start_time_utc;
         $post_data['requestParam.equal.endTimeUtc'] = $end_time_utc;
         $post_data['requestParam.equal.areaCode'] = '430000';
         $post_data['undefined'] = 'undefined';
@@ -89,6 +120,8 @@ class HistoryWarning
         return $rows;
 
     }
+
+
 
     private function arrayToPostString($dataArr)
     {
