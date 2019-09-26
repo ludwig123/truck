@@ -4,21 +4,28 @@
 namespace app\truck\common;
 
 
+/**
+ * Class Track 查询车辆轨迹
+ * @package app\truck\common
+ */
 class Track
 {
-    public function findTrack()
+    public function findTrack($car, $gapHour)
     {
+        $carNumToVid = new  CarNumToVid();
+        $vid = $carNumToVid->getVid($car);
         //！！！！！注意这里的时间要添加 ：00 用于毫秒级的时间转换！！
-        $startTime = '2019-09-16 15:33:25:00';
-        $endTime = '2019-09-17 15:33:25:00';
-        $cookie = 'JSESSIONID=418D91F028591288F6A5FCD4FA553D1F; lineCheck=inLineCheck; __guid=149418029.2417622607162884600.1555312459470.336; JSESSIONID=666F96E503340F737C40A1C4EE0A893C; COOKIE_USERID_HD=37d904998104a45986db0f7f482a141581ff1028f6c2b6417e34468a_1568768083325; monitor_count=12';
-
-        $post_data['requestParam.equal.id'] ='2698081623798745914';
+        $startTime = $this->getStartTime($gapHour);
+        $endTime = $this->getEndTime();
+        $cookie = NetWorker::getCookiesCache();
+//        $vid = '2698081623798745914';
+        $queryId = $this->getQueryId($vid);
+        $post_data['requestParam.equal.id'] = $vid;
         $post_data['requestParam.equal.startTime'] = $startTime;
-        $post_data['requestParam.equal.endTime']=$endTime;
-        $post_data['requestParam.equal.orgCode'] ='430000';
-        $post_data['requestParam.equal.queryId'] =$this->getQueryId($post_data['requestParam.equal.id']);
-        $post_data['requestParam.equal.init'] =1;
+        $post_data['requestParam.equal.endTime']= $endTime;
+        $post_data['requestParam.equal.orgCode'] = '430000';
+        $post_data['requestParam.equal.queryId'] = $queryId;
+        $post_data['requestParam.equal.init'] = 1;
         $post_data['requestParam.equal.trailDataKey'] = $this->uuid_v4();
         $post_data['requestParam.equal.searchType'] = 1;
 
@@ -92,15 +99,6 @@ class Track
 
         $data_string = implode ( "&" , $values ) ;
         return $data_string;
-//        return array(
-//            'requestParam.equal.endTime:"2019-09-16 10:44:25:00"',
-//            'requestParam.equal.id:5101808161579700227',
-//            'requestParam.equal.init:1',
-//            'requestParam.equal.orgCode:430000',
-//            'requestParam.equal.queryId:5101808161579700227_0_1568603599272',
-//            'requestParam.equal.searchType:1',
-//            'requestParam.equal.startTime:2019-09-15 10:44:25:00',
-//            'requestParam.equal.trailDataKey:4959DB80-8195-4D96-9A6D-FDDCE107F656');
     }
 
     public function isOverspeed($str){
@@ -146,4 +144,28 @@ class Track
         return $vid.'_'.'0'.'_'.intval(microtime(true)*1000);
     }
 
+    /**
+     * 输入间隔的小时数，返回开始的时间
+     * @param $time
+     * @return string
+     */
+    private function getStartTime($gapHour)
+    {
+
+        $now = time();
+        $time = date('Y-m-d H:i:s',$now - $gapHour*60*60);
+        $time = $time.':00';
+        return $time;
+
+    }
+
+
+    private function getEndTime()
+    {
+        $time = date('Y-m-d H:i:s');
+        $time = $time.':00';
+        return $time;
+
+
+    }
 }

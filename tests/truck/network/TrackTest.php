@@ -10,7 +10,7 @@ class TrackTest extends TestCase
     public function testFindTrack()
     {
         $track = new Track();
-        $response = $track->findTrack();
+        $response = $track->findTrack('湘D9999',24);
         $this->assertNotEmpty($response);
 
     }

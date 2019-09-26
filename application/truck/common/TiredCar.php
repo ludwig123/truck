@@ -15,6 +15,8 @@ class TiredCar
         $this->isChina = $isChina;
     }
 
+
+
     public function tiredCar(){
         $start_time_utc = $this->getLastTiredWarning();
         $end_time_utc = TimeTranslator::currentUtcMicro();

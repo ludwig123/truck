@@ -25,7 +25,7 @@ class History extends Controller
     {
         $car = '湘D9999';
         $track =new Track();
-        $speedRecords  = $track->findTrack();
+        $speedRecords  = $track->findTrack($car, $time);
         if (!empty($speedRecords)){
             for ($i = 0; $i < count($speedRecords); $i++){
                 $speedRecords[$i]['carNum'] = $car;
