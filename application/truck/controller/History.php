@@ -34,4 +34,10 @@ class History extends Controller
         return LayuiSupport::replyForTable($speedRecords,$page, $limit);
     }
 
+    public function warnings($car='', $page = 1, $limit = 10)
+    {
+
+
+    }
+
 }
