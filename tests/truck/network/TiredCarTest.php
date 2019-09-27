@@ -6,10 +6,16 @@ use PHPUnit\Framework\TestCase;
 
 class TiredCarTest extends TestCase
 {
+    protected function setUp():void
+    {
+        parent::setUp();
+        $cookie = 'JSESSIONID=348E0DEDB31C9D29A1A9F55FA902712E; lineCheck=inLineCheck; __guid=149418029.2417622607162884600.1555312459470.336; JSESSIONID=C72A3228F2F867921A82FE816EE7B9E3; COOKIE_USERID_HD=c73100a3f5074480a68e69c33661dfabf37f6fb27309b072286a92e7_1569556088634; monitor_count=11';
+        \app\truck\common\NetWorker::setCookie($cookie);
+
+    }
 
     public function testTiredHistroyWarnings()
     {
-        \app\truck\common\NetWorker::setCookie('JSESSIONID=FC72C0E202AFCD260F6F990294DA4CEC; lineCheck=inLineCheck; __guid=149418029.2417622607162884600.1555312459470.336; JSESSIONID=BAAE08480C1794A3DCE5AEAA6397713A; monitor_count=6; COOKIE_USERID_HD=50a7a5b413295871aa0bd9578f5c835e04a7c2725fbd44dd6ce53268_1569507748133');
         $tiredWarings = new HistoryWarning();
         $carNum = '湘DB9333';
         $start_time_utc= '1569340800000';
@@ -20,7 +26,6 @@ class TiredCarTest extends TestCase
 
     public function testSpeedHistoryWarning()
     {
-        \app\truck\common\NetWorker::setCookie('JSESSIONID=FC72C0E202AFCD260F6F990294DA4CEC; lineCheck=inLineCheck; __guid=149418029.2417622607162884600.1555312459470.336; JSESSIONID=BAAE08480C1794A3DCE5AEAA6397713A; monitor_count=6; COOKIE_USERID_HD=50a7a5b413295871aa0bd9578f5c835e04a7c2725fbd44dd6ce53268_1569507748133');
         $tiredWarings = new HistoryWarning();
         $carNum = '湘M69328';
         $start_time_utc= '1569168000000';
@@ -31,7 +36,6 @@ class TiredCarTest extends TestCase
 
     public function testSpeedHistoryWarning_noRecord_()
     {
-        \app\truck\common\NetWorker::setCookie('JSESSIONID=FC72C0E202AFCD260F6F990294DA4CEC; lineCheck=inLineCheck; __guid=149418029.2417622607162884600.1555312459470.336; JSESSIONID=BAAE08480C1794A3DCE5AEAA6397713A; monitor_count=6; COOKIE_USERID_HD=50a7a5b413295871aa0bd9578f5c835e04a7c2725fbd44dd6ce53268_1569507748133');
         $tiredWarings = new HistoryWarning();
         $carNum = '湘M69328';
         $start_time_utc= '1569340800000';
@@ -42,7 +46,6 @@ class TiredCarTest extends TestCase
 
     public function testHistoryWarningBoth_return_array()
     {
-        \app\truck\common\NetWorker::setCookie('JSESSIONID=FC72C0E202AFCD260F6F990294DA4CEC; lineCheck=inLineCheck; __guid=149418029.2417622607162884600.1555312459470.336; JSESSIONID=BAAE08480C1794A3DCE5AEAA6397713A; monitor_count=6; COOKIE_USERID_HD=50a7a5b413295871aa0bd9578f5c835e04a7c2725fbd44dd6ce53268_1569507748133');
         $tiredWarings = new HistoryWarning();
         $carNum = '湘M69328';
         $rows = $tiredWarings->warnings($carNum);
