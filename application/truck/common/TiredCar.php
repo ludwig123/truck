@@ -19,7 +19,7 @@ class TiredCar
         $start_time_utc = $this->getLastTiredWarning();
         $end_time_utc = TimeTranslator::currentUtcMicro();
 
-        $gap = MICRO_SECONDS_PER_MINUTE * 20;
+        $gap = MICRO_SECONDS_PER_MINUTE * 3;
 
         while ($start_time_utc < $end_time_utc){
             $this->tiredCarReal($start_time_utc, $start_time_utc + $gap);
