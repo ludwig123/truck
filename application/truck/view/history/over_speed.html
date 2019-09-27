@@ -1,0 +1,101 @@
+{extend name="common/base" /}
+
+{block name="main"}
+<div class="site-block site-content">
+<div class="layui-form">
+    <div class="layui-form-item" layui-col-md3>
+        <label class="layui-form-label">输入框</label>
+        <div class="layui-input-block">
+            <input type="text" id="car" name="car" required  lay-verify="required" placeholder="请输入车牌" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <label class="layui-form-label">查询时间</label>
+    <div class="layui-input-block">
+        <select name="time" id="time" lay-verify="required">
+            <option value=""></option>
+            <option value="24">24小时内</option>
+            <option value="72">3天内</option>
+            <option value="168">7天内</option>
+            <option value="360">15天内</option>
+        </select>
+    </div>
+
+    <div class="layui-form-item">
+        <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-contlist-search" data-type="reload">
+            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+        </button>
+    </div>
+</div>
+    <table id="demo" lay-filter="test" lay-data="{id: 'idTest'}"></table>
+</div>
+
+
+<script>
+    layui.use([ 'table'], function(){
+        var $ = layui.$;
+        var table = layui.table;
+        var form = layui.form;
+        form.render(null, 'app-content-list');
+
+        active = {
+            reload: function () {
+
+                var car = $('#car').val();
+                var time = $('#time').val();
+
+                //执行重载
+                table.reload('demo', {
+                    url: '/truck/public/index.php/truck/history/speedhistory'
+                    ,where:{
+                        car:car,
+                        time:time
+                    }
+
+                    ,page: false
+                });
+            }
+        };
+
+
+
+        //监听搜索
+        form.on('submit(LAY-app-contlist-search)', function(data){
+            var field = data.field;
+
+            //执行重载
+            table.reload('test-table-reload', {
+                url: '/truck/public/index.php/truck/history/speedhistory'
+                ,where:{
+                    field
+                }
+
+                ,page: false
+            });
+        });
+
+
+        table.render({
+            elem: '#demo'
+            ,height: 600
+            ,url: '/truck/public/index.php/truck/history/speedhistory' //数据接口
+            ,page: true //开启分页
+            ,cols: [[ //表头
+                {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                ,{field: 'carNum', title: '车牌', width:120}
+                ,{field: 'time', title: '报警时间', width:220, sort: true}
+                ,{field: 'speed', title: '时速(公里/小时)', width:160}
+            ]]
+        });
+
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+
+
+</script>
+{/block}

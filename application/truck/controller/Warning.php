@@ -33,6 +33,7 @@ class Warning extends Controller
         
     }
 
+    //手动添加cookie
     public function cookie(){
         $cookie= Request::get('cookie');
         if (!empty($cookie)){
@@ -76,6 +77,9 @@ class Warning extends Controller
         $speedCar = new SpeedCar(false);
         $speedCar->speedCar();
     }
+
+
+
 
 
 

@@ -11,15 +11,19 @@ class LocationTranslator
      * @param $filter
      * @return array
      */
-    public static function addAddress($rows, $filter)
+    public static function addAddress($rows, $filter = '')
     {
 //通过经纬度查询具体的地址
         $addrListStr = self::getAddrList($rows);
         $addrList = json_decode($addrListStr, true);
         $rows = self::addAddrToAlarmList($addrList, $rows);
-        $rows = self::reduceRows($rows, $filter);
+        if (!empty($filter))
+        {
+            $rows = self::reduceRows($rows, $filter);
+        }
         return $rows;
     }
+
 
     private static function addAddrToAlarmList($addrList, $rows){
         $records = array();

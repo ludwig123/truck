@@ -28,4 +28,11 @@ class TimeTranslator{
     public static function utcToDateTime($utc){
         return date('Y-m-d H:i:s' , $utc);
     }
+
+    public static function todayEnd(){
+        $today = date("Y-m-d");
+        $todayEnd = strtotime($today.' 23:59:59');
+
+        return $todayEnd * 1000;
+    }
 }
