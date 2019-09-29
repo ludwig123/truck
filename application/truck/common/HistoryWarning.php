@@ -78,7 +78,7 @@ class HistoryWarning
         if (empty($rows))
             return 0;
 
-        $filter = '';
+        $filter = '湖南';
         $rows = LocationTranslator::addAddress($rows,$filter);
         return $rows;
 
@@ -120,7 +120,7 @@ class HistoryWarning
         if (empty($rows))
             return 0;
 
-        $filter = '';
+        $filter = '湖南';
         $rows = LocationTranslator::addAddress($rows, $filter);
         return $rows;
 
