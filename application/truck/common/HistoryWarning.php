@@ -162,7 +162,7 @@ class HistoryWarning
     private function beautifyRow($row)
     {
         $beautify = array();
-        if ($row['alarmCode'] = 2)
+        if (intval($row['alarmCode'] = 2))
         {
             $beautify['type'] = '疲劳';
         }
@@ -200,10 +200,6 @@ class HistoryWarning
 
     }
 
-    private function getAlarmTime($row)
-    {
-
-    }
 
     private function alarmTime($row)
     {
@@ -238,6 +234,10 @@ class HistoryWarning
         return $seconds;
     }
 
+    /** 把秒数字转为X天X小时X分X秒
+     * @param $seconds
+     * @return string
+     */
     public function gapSecondsToReadableString($seconds)
     {
         $day = $this->gapDay($seconds);

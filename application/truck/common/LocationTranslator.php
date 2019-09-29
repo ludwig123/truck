@@ -8,7 +8,7 @@ class LocationTranslator
 {
     /**
      * @param $rows
-     * @param $filter
+     * @param $filter 要剔除的行
      * @return array
      */
     public static function addAddress($rows, $filter = '')

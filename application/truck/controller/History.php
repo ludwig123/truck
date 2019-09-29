@@ -3,11 +3,8 @@
 
 namespace app\truck\controller;
 
-use app\truck\common\CarRepository;
 use app\truck\common\HistoryWarning;
 use app\truck\common\LayuiSupport;
-use app\truck\common\NetWorker;
-use app\truck\common\Track;
 use think\Controller;
 
 class History extends Controller
@@ -21,7 +18,6 @@ class History extends Controller
             echo 'not over speed！';
         }
 
-
     }
 
 
@@ -29,8 +25,9 @@ class History extends Controller
     public function warningsBoth($car='',$day = '7', $page = 1, $limit = 10)
     {
         $historyWarning = new HistoryWarning();
+        $rows = array();
         if (empty($car)){
-            return [];
+            LayuiSupport::replyForTable($rows);
         }
         $rows = $historyWarning->warnings($car, $day);
             return LayuiSupport::replyForTable($rows);
