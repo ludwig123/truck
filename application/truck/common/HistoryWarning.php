@@ -8,9 +8,6 @@ class HistoryWarning
 {
     public function warnings($carNum, $day)
     {
-
-
-
         $warnings = array();
         for ($i = 0; $i < $day; $i++)
         {
@@ -81,8 +78,8 @@ class HistoryWarning
         if (empty($rows))
             return 0;
 
-        $filter = '衡阳市';
-        $rows = LocationTranslator::addAddress($rows);
+        $filter = '';
+        $rows = LocationTranslator::addAddress($rows,$filter);
         return $rows;
 
     }
@@ -123,8 +120,8 @@ class HistoryWarning
         if (empty($rows))
             return 0;
 
-        $filter = '衡阳市';
-        $rows = LocationTranslator::addAddress($rows);
+        $filter = '';
+        $rows = LocationTranslator::addAddress($rows, $filter);
         return $rows;
 
     }
@@ -162,7 +159,7 @@ class HistoryWarning
     private function beautifyRow($row)
     {
         $beautify = array();
-        if (intval($row['alarmCode'] = 2))
+        if (intval($row['alarmCode'] == 2))
         {
             $beautify['type'] = '疲劳';
         }
