@@ -147,9 +147,13 @@ class HistoryWarning
             return array();
         }
 
+        $id = 1;
         foreach ($rows as $k => $v)
         {
-            $beautifyRows[] = $this->beautifyRow($v);
+
+            $temp = $this->beautifyRow($v);
+            $temp['id'] = $id++;
+            $beautifyRows[] = $temp;
         }
 
         return $beautifyRows;
