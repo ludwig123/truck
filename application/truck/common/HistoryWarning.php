@@ -8,6 +8,11 @@ class HistoryWarning
 {
     public function warnings($carNum, $day)
     {
+        if (empty($carNum))
+        {
+            return array();
+        }
+
         if (!$this->isTruckExist($carNum))
         {
             return $this->truckNotExistInfo($carNum);
