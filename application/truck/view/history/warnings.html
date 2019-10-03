@@ -3,14 +3,17 @@
 {block name="main"}
 <div class="site-block ">
     <div class="layui-form">
-        <div class="layui-form-item" layui-col-md3>
-            <label class="layui-form-label">输入框</label>
+        <div class="layui-inline">
+        <div class="layui-form-item" >
+            <label class="layui-form-label">车牌：</label>
             <div class="layui-input-block">
                 <input type="text" id="car" name="car" required  lay-verify="required" placeholder="请输入车牌" autocomplete="off" class="layui-input">
             </div>
         </div>
-
-        <label class="layui-form-label">查询时间</label>
+        </div>
+        <div class="layui-inline">
+            <div class="layui-form-item" >
+        <label class="layui-form-label">预警时间：</label>
         <div class="layui-input-block">
             <select name="day" id="day" lay-verify="">
                 <option value="1">24小时内</option>
@@ -19,11 +22,16 @@
                 <option value="15">15天内</option>
             </select>
         </div>
+            </div>
+        </div>
 
+        <div class="layui-inline">
         <div class="layui-form-item">
             <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-contlist-search" data-type="reload">
-                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>搜索
             </button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
         </div>
     </div>
     <table id="demo" lay-filter="test" lay-data="{id: 'idTest'}"></table>
