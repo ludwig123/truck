@@ -34,4 +34,9 @@ class URLRepository
     {
         return "https://jg.gghypt.net/hyjg/monitor/monitorAction!findBasicInfoVehicle.action";
     }
+
+    public static function findVehicleForListUrl()
+    {
+        return "https://jg.gghypt.net/hyjg/statistics/statisticsAction!findVehicleForList.action";
+    }
 }

@@ -8,6 +8,11 @@ class HistoryWarning
 {
     public function warnings($carNum, $day)
     {
+        if (!$this->isTruckExist($carNum))
+        {
+            return $this->truckNotExistInfo($carNum);
+        }
+
         $warnings = array();
         for ($i = 0; $i < $day; $i++)
         {
@@ -196,9 +201,6 @@ class HistoryWarning
 
         $str = $this->gapSecondsToReadableString($gap);
         return $str;
-
-
-
     }
 
 
@@ -268,6 +270,52 @@ class HistoryWarning
         }
 
         return $str;
+    }
+
+    public function isTruckExist($carNum)
+    {
+        $cookie = NetWorker::getCookiesCache();
+        $post_data['requestParam.equal.vehicleNo'] = $carNum;
+        $post_data['undefined'] = 'undefined';
+        $post_data['undefined'] = 'undefined';
+        $post_data['undefined'] = 'undefined';
+        $post_data['undefined'] = 'undefined';
+        $post_data['requestParam.equal.orgCode'] = '0100000';
+        $post_data['requestParam.equal.orgLevel'] = '0';
+        $post_data['undefined'] = 'undefined';
+        $post_data['requestParam.page'] = '1';
+        $post_data['requestParam.rows'] = '20';
+        $post_data['sortname'] = 'vehicleNo';
+        $post_data['sortorder'] = 'asc';
+
+        $data=$this->arrayToPostString($post_data);
+
+
+        $header = NetWorker::getHeader4TruckInfo($cookie, $data);
+        $url = URLRepository::findVehicleForListUrl();
+
+        $resultStr = NetWorker::getPostResult($header, $data, $url);
+        if ($resultStr == ''){
+            echo 'sessinId 过期！';
+            exit();
+        }
+        $result = json_decode($resultStr, true);
+        $rows = $result['Rows'];
+
+        // 服务器没有返回数据
+        if (empty($rows))
+            return false;
+
+        else
+            return true;
+    }
+
+    private function truckNotExistInfo($carNum){
+        $temp['id'] = 1;
+        $temp['carNum'] = $carNum;
+        $temp['owner'] = '车辆未联网';
+        $rows = array($temp);
+        return $rows;
 
     }
 }
